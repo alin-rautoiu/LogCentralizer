@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -73,7 +74,6 @@ namespace DispalyTable
 
         protected void StarDate_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             index = StartDate.SelectedIndex;
             endDates.RemoveRange(0, index);
             EndDate.DataSource = endDates;
@@ -100,6 +100,67 @@ namespace DispalyTable
 
             WebLogDataGrid.DataSource = createGrid(log);
             WebLogDataGrid.DataBind();
+        }
+
+        protected void IpTextFilter_Click(object sender, EventArgs e)
+        {
+            String[] address = IpText.Text.Split('/');
+            IPAddress ip;
+            bool check = IPAddress.TryParse(address[0],out ip);
+            if (!check)
+            {
+                Label1.Text = "Adresa in format gresit";
+            }
+            else
+            {
+
+                uint mask;
+
+                try
+                {
+                    mask = uint.Parse(address[1]);
+                }
+                catch (IndexOutOfRangeException exception)
+                {
+                    mask = 32;
+                }
+
+                byte[] ipBytes = ip.GetAddressBytes();
+                byte[] maskBytes = BitConverter.GetBytes(mask).Reverse().ToArray();
+                byte[] network = new byte[4];
+
+                for (int i = 0; i < 4; i++)
+                {
+                    network[i] = (byte)(ipBytes[i] & maskBytes[i]);
+                }
+
+                LogTable newLog = new LogTable();
+                newLog.header.AddRange(log.header);
+                foreach (var row in log.rows)
+                {
+                    IPAddress oldip = IPAddress.Parse(row.ElementAt(5));
+                    byte[] oldIpBytes = ip.GetAddressBytes();
+                    byte[] oldNetwork = new byte[4];
+                    bool contains = true;
+                    
+                    for (int i = 0; i < 4; i++)
+                    {
+                        oldNetwork[i] = (byte)(oldIpBytes[i] & maskBytes[i]);
+                        if (network[i] != oldNetwork[i])
+                        {
+                            contains = false;
+                            continue;
+                        }
+                    }
+                    if(contains)
+                        newLog.rows.Add(row);
+                }
+
+                WebLogDataGrid.DataSource = createGrid(newLog);
+                WebLogDataGrid.DataBind();
+
+            }
+
         }
     }
 }
