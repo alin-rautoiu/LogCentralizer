@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -13,20 +14,27 @@ namespace DispalyTable
         protected void Page_Load(object sender, EventArgs e)
         {
             LogTable log = new LogTable(LogCentralizor.Program.Go());
+            TableRow header = new TableRow();
+            DataTable dt = new DataTable();
 
-            foreach (var row in log)
+            for (int i = 0; i < 11; i++)
             {
-                TableRow rowDispaly = new TableRow();
-                foreach (var cell in row)
-                {
-                    TableCell cellDisplay = new TableCell();
-                    cellDisplay.Text = cell;
-
-                    rowDispaly.Cells.Add(cellDisplay);
-                }
-
-                WebLogServer.Rows.Add(rowDispaly);
+                DataColumn column = new DataColumn(log.header[i]);
+                dt.Columns.Add(column);
             }
+
+            foreach (var row in log.rows)
+            {
+                DataRow dr = dt.NewRow();
+                for (int j = 0; j < row.Count<String>(); j++)
+                {
+                    dr[j] = row.ElementAt(j);
+                }
+                dt.Rows.Add(dr);
+            }
+
+            WebLogDataGrid.DataSource = new DataView(dt);
+            WebLogDataGrid.DataBind();
         }
     }
 }

@@ -10,6 +10,10 @@
     <form id="form1" runat="server">
     <div>
         <asp:Table runat="server" ID="WebLogServer" GridLines="Both"></asp:Table>
+
+        <asp:DataGrid runat="server" ID="WebLogDataGrid" AllowSorting="true" >
+            
+        </asp:DataGrid>
     </div>
     </form>
 </body>
