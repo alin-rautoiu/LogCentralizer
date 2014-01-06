@@ -58,6 +58,24 @@ namespace DispalyTable {
         protected global::System.Web.UI.WebControls.Button Bttn;
         
         /// <summary>
+        /// IpSelect control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList IpSelect;
+        
+        /// <summary>
+        /// IpFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button IpFilter;
+        
+        /// <summary>
         /// WebLogDataGrid control.
         /// </summary>
         /// <remarks>

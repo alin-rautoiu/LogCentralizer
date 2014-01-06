@@ -14,21 +14,30 @@ namespace DispalyTable
         List<String> endDates;
         static int index;
         LogTable log;
+        List<String> ipList;
         protected void Page_Load(object sender, EventArgs e)
         {
             log = new LogTable(LogCentralizor.Program.Go());
             TableRow header = new TableRow();
             startDates = new List<string>();
             endDates = new List<string>();
+            ipList = new List<string>();
+
+            ipList.Add("_");
 
             foreach (var row in log.rows)
             {
                 startDates.Add(row.ElementAt(0));
                 endDates.Add(row.ElementAt(0));
+                if (!ipList.Contains(row.ElementAt(5)))
+                    ipList.Add(row.ElementAt(5));
             }
 
             if (!IsPostBack)
             {
+                IpSelect.DataSource = ipList;
+                IpSelect.DataBind();
+
                 StartDate.DataSource = startDates;
                 StartDate.DataBind();
 
@@ -81,6 +90,16 @@ namespace DispalyTable
             WebLogDataGrid.DataSource = createGrid(log);
             WebLogDataGrid.DataBind();
             
+        }
+
+        protected void IpFilter_Click(object sender, EventArgs e)
+        {
+
+            if(IpSelect.SelectedValue.CompareTo("_") != 0)
+                log.rows.RemoveAll(row => row.ElementAt(5).CompareTo(IpSelect.SelectedValue) != 0);
+
+            WebLogDataGrid.DataSource = createGrid(log);
+            WebLogDataGrid.DataBind();
         }
     }
 }
