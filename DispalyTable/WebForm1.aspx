@@ -8,12 +8,19 @@
 </head>
 <body>
     <form id="form1" runat="server">
+    
     <div>
-        <asp:Table runat="server" ID="WebLogServer" GridLines="Both"></asp:Table>
-
+        <asp:DropDownList runat="server" AutoPostBack="true" ID="StartDate" OnSelectedIndexChanged="StarDate_SelectedIndexChanged"></asp:DropDownList>
+        <asp:DropDownList runat="server" ID="EndDate" OnSelectedIndexChanged="EndDate_SelectedIndexChanged"></asp:DropDownList>
+        <asp:Label runat="server" ID="Label1"></asp:Label>
+        <asp:Button runat="server" ID="Bttn" OnClick="Bttn_Click" Text="Filter"/>
+    </div>    
+    <div>
         <asp:DataGrid runat="server" ID="WebLogDataGrid" AllowSorting="true" >
-            
         </asp:DataGrid>
+ 
+        
+
     </div>
     </form>
 </body>

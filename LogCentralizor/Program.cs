@@ -13,14 +13,6 @@ namespace LogCentralizor
     {
         static void Main(string[] args)
         {
-            string logPath = "C:\\Users\\Alin\\Downloads\\20110307_023937AM_vms4pplog download\\logfile.csv";
-            String log = File.ReadAllText(logPath);
-            Char[] separators = { '\n', ',','"','\r'};
-            List<String> logItems = log.Split(separators).ToList<String>();
-
-            logItems.RemoveAll(item => item.CompareTo("") == 0);
-
-            LogTable logTable = new LogTable(CreateRows(logItems));
 
         }
 
