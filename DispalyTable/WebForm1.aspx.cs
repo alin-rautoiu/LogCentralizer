@@ -118,15 +118,15 @@ namespace DispalyTable
 
                 try
                 {
-                    mask = uint.Parse(address[1]);
+                    mask = (uint.MaxValue >> Int32.Parse(address[1]));
                 }
                 catch (IndexOutOfRangeException exception)
                 {
-                    mask = 32;
+                    mask = ~(uint.MaxValue >> 32);
                 }
 
                 byte[] ipBytes = ip.GetAddressBytes();
-                byte[] maskBytes = BitConverter.GetBytes(mask).Reverse().ToArray();
+                byte[] maskBytes = BitConverter.GetBytes(mask);
                 byte[] network = new byte[4];
 
                 for (int i = 0; i < 4; i++)
@@ -136,6 +136,7 @@ namespace DispalyTable
 
                 LogTable newLog = new LogTable();
                 newLog.header.AddRange(log.header);
+                
                 foreach (var row in log.rows)
                 {
                     IPAddress oldip = IPAddress.Parse(row.ElementAt(5));
