@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-public class LogTable: IEnumerable<Row>
+public class    LogTable: IEnumerable<Row>
 {
     public List<Row> rows;
     public List<String> header;

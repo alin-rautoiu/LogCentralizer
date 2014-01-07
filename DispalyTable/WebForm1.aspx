@@ -11,6 +11,7 @@
     
     <div>
         <asp:Label runat="server">Filtru pe interval de timp</asp:Label>
+        <asp:Label runat="server" ID="MyLabel"></asp:Label>
         <asp:DropDownList runat="server" AutoPostBack="true" ID="StartDate" OnSelectedIndexChanged="StarDate_SelectedIndexChanged"></asp:DropDownList>
         <asp:DropDownList runat="server" ID="EndDate"></asp:DropDownList>
         <asp:Button runat="server" ID="Bttn" OnClick="Bttn_Click" Text="Filter"/>
@@ -30,8 +31,6 @@
         <asp:DataGrid runat="server" ID="WebLogDataGrid" AllowSorting="true" >
         </asp:DataGrid>
  
-        
-
     </div>
     </form>
 </body>

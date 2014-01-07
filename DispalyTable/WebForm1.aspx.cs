@@ -48,6 +48,8 @@ namespace DispalyTable
                 WebLogDataGrid.DataSource = createGrid(log);
                 WebLogDataGrid.DataBind();
             }
+
+            MyLabel.Text = "Am scris ceva";
         }
 
         private DataView createGrid(LogTable log)

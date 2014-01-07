@@ -18,7 +18,7 @@ namespace LogCentralizor
 
         public static List<Row> Go()
         {
-            string logPath = "C:\\Users\\Alin\\Downloads\\20110307_023937AM_vms4pplog download\\logfile.csv";
+            string logPath = "C:\\Users\\Alin\\Downloads\\20110307_023937AM_vms4pplog download\\20110307_023937AM_vms4pplog download.csv";
             String log = File.ReadAllText(logPath);
             Char[] separators = { '\n', ',', '"', '\r' };
 

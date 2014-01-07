@@ -20,24 +20,76 @@ namespace ConsoleApplication1
             SqlCommand selectAll = new SqlCommand("SELECT * FROM LogTable", connection);
 
             connection.Open();
-            SqlDataReader reader = selectAll.ExecuteReader();
 
-            while (reader.Read())
+            LogTable log = new LogTable(LogCentralizor.Program.Go());
+            List<String> commands = TableToCommandString(log);
+            foreach(var command in commands)
             {
-                Console.WriteLine(reader["LogTime"]);
+                Console.WriteLine(command);
             }
+            
+            try
+            {
+                foreach (var command in commands)
+                {
+                    SqlCommand insertRow = new SqlCommand(command,connection);
+                    insertRow.ExecuteNonQuery();
+                }
 
+                SqlDataReader reader = selectAll.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine(reader[0]);
+                }
+                reader.Close();
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            connection.Close();
         }
+
         
 
         public LogTable Read()
         {
-            throw new NotImplementedException();
+            return new LogTable(LogCentralizor.Program.Go());
         }
 
         public void Write(LogTable log)
         {
             throw new NotImplementedException();
+        }
+
+        public static List<String> TableToCommandString(LogTable log)
+        {
+            List<String> commands = new List<string>();
+
+            foreach (var row in log.rows)
+            {
+                String command = "INSERT INTO LogTable(";
+                foreach(var head in log.header)
+                {
+                    command = command + head + ", ";
+                }
+                command = command.Remove(command.Length - 2);
+                command = command + ") VALUES(";
+                foreach (var cell in row)
+                {
+                    command = command + "'" + cell + "',";
+                }
+                command = command.Remove(command.Length-1);
+                command = command + ")";
+                commands.Add(command);
+            }
+
+            return commands;
         }
     }
 }
