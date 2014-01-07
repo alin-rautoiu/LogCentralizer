@@ -73,19 +73,12 @@ namespace ConsoleApplication1
 
             foreach (var row in log.rows)
             {
-                String command = "INSERT INTO LogTable(";
-                foreach(var head in log.header)
-                {
-                    command = command + head + ", ";
-                }
-                command = command.Remove(command.Length - 2);
-                command = command + ") VALUES(";
+                String command = "EXEC InsertWithValidation ";
                 foreach (var cell in row)
                 {
                     command = command + "'" + cell + "',";
                 }
                 command = command.Remove(command.Length-1);
-                command = command + ")";
                 commands.Add(command);
             }
 
