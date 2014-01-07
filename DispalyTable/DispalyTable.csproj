@@ -79,9 +79,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LogCentralizor\LogCentralizor.csproj">
+    <ProjectReference Include="..\ConsoleApplication1\DatabaseConnection.csproj">
+      <Project>{66fd8a14-8005-4c1f-af98-2cc1b23b93a4}</Project>
+      <Name>DatabaseConnection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogCentralizor\LogReader.csproj">
       <Project>{b6675cff-a5ce-47d0-b2aa-895007a30b60}</Project>
-      <Name>LogCentralizor</Name>
+      <Name>LogReader</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

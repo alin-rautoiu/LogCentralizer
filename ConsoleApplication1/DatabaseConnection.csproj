@@ -7,7 +7,7 @@
     <ProjectGuid>{66FD8A14-8005-4C1F-AF98-2CC1B23B93A4}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleApplication1</RootNamespace>
+    <RootNamespace>DatabaseConnection</RootNamespace>
     <AssemblyName>ConsoleApplication1</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -50,13 +50,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DispalyTable\DispalyTable.csproj">
-      <Project>{201299a9-c281-423d-b94d-bfad1d66903e}</Project>
-      <Name>DispalyTable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LogCentralizor\LogCentralizor.csproj">
+    <ProjectReference Include="..\LogCentralizor\LogReader.csproj">
       <Project>{b6675cff-a5ce-47d0-b2aa-895007a30b60}</Project>
-      <Name>LogCentralizor</Name>
+      <Name>LogReader</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

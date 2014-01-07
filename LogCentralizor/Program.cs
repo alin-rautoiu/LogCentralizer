@@ -7,13 +7,13 @@ using System.IO;
 using System.CodeDom.Compiler;
 using System.CodeDom;
 
-namespace LogCentralizor
+namespace LogReader
 {
     public class Program
     {
         static void Main(string[] args)
         {
-
+            
         }
 
         public static List<Row> Go()

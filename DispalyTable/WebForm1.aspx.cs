@@ -19,7 +19,9 @@ namespace DispalyTable
         List<String> ipList;
         protected void Page_Load(object sender, EventArgs e)
         {
-            log = new LogTable(LogCentralizor.Program.Go());
+//            log = new LogTable(LogReader.Program.Go());
+            DatabaseConnection.Program newConnection = new DatabaseConnection.Program();
+            log = newConnection.Read();
             TableRow header = new TableRow();
             startDates = new List<string>();
             endDates = new List<string>();

@@ -7,7 +7,7 @@
     <ProjectGuid>{B6675CFF-A5CE-47D0-B2AA-895007A30B60}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LogCentralizor</RootNamespace>
+    <RootNamespace>LogReader</RootNamespace>
     <AssemblyName>LogCentralizor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
