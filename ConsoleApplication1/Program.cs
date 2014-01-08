@@ -30,7 +30,7 @@ namespace DatabaseConnection
 
         public void EmptyDB()
         {
-            String connectionString = getConnectionString("C:\\Users\\Alin\\Documents\\GitHub\\LogCentralizer\\conf.txt");
+            String connectionString = getConnectionString(@"C:\Conf\conf.txt");
 
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
@@ -44,7 +44,7 @@ namespace DatabaseConnection
 
         public LogTable Read()
         {
-            String connectionString = getConnectionString("C:\\Users\\Alin\\Documents\\GitHub\\LogCentralizer\\conf.txt");
+            String connectionString = getConnectionString(@"C:\Conf\conf.txt");
 
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
@@ -86,7 +86,7 @@ namespace DatabaseConnection
 
         public void Write(LogTable log)
         {
-            String connectionString = getConnectionString("C:\\Users\\Alin\\Documents\\GitHub\\LogCentralizer\\conf.txt");
+            String connectionString = getConnectionString(@"C:\Conf\conf.txt");
 
             SqlConnection connection = new SqlConnection(connectionString);
             SqlCommand selectAll = new SqlCommand("SELECT * FROM LogTable ORDER BY LogTime", connection);

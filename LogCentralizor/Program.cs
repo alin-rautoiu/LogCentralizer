@@ -33,7 +33,7 @@ namespace LogReader
             row.Add("Error");
 
             rows.Add(new Row(row));
-            String logPath = getPath(@"C:\Users\Alin\Documents\GitHub\LogCentralizer\conf.txt");
+            String logPath = getPath(@"C:\Conf\conf.txt");
             String[] filesPaths = Directory.GetFiles(logPath, "*.csv");
             foreach (var file in filesPaths)
             {
@@ -49,7 +49,8 @@ namespace LogReader
                 try
                 {
                     File.Move(file,
-                                @"C:\Users\Alin\Downloads\20110307_023937AM_vms4pplog download\AlreadyProccesed\" +
+                                file + 
+                                @"\AlreadyProccesed\" +
                                 file.Split('\\').Last());
                 }
                 catch (Exception e)
