@@ -49,13 +49,13 @@ namespace LogReader
                 try
                 {
                     File.Move(file,
-                                file + 
+                                logPath + 
                                 @"\AlreadyProccesed\" +
                                 file.Split('\\').Last());
                 }
                 catch (Exception e)
                 {
-                    throw;
+                    //throw;
                 }
 
                 rows.AddRange(CreateRows(logItems));

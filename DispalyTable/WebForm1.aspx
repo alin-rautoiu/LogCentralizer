@@ -21,7 +21,7 @@
         <asp:Button runat="server" ID="IpFilter" OnClick="IpFilter_Click" Text="Filter" />
     </div>    
     <div>
-        <asp:Label runat="server">Filtru pe adresa de retea sau adresa IP specifica</asp:Label><asp:Label runat="server" ForeColor="Red">(Nu merge)</asp:Label>
+        <asp:Label runat="server">Filtru pe adresa de retea sau adresa IP specifica</asp:Label>
         <asp:TextBox runat="server" ID="IpText"></asp:TextBox>
         <asp:Button runat="server" ID="IpTextFilter" Text="Filter" OnClick="IpTextFilter_Click"/>
         <asp:Label runat="server" ID="Label1"></asp:Label>

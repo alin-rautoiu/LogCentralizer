@@ -108,6 +108,7 @@ namespace DispalyTable
         {
             String[] address = IpText.Text.Split('/');
             IPAddress ip;
+            int mask = 32;
             bool check = IPAddress.TryParse(address[0],out ip);
             if (!check)
             {
@@ -116,19 +117,30 @@ namespace DispalyTable
             else
             {
 
-                uint mask;
 
                 try
                 {
-                    mask = (uint.MaxValue >> Int32.Parse(address[1]));
+                    mask = Int32.Parse(address[1]);
                 }
-                catch (IndexOutOfRangeException exception)
+                catch (IndexOutOfRangeException exception){
+                    mask = 32;
+                }
+                byte[] maskBytes = new Byte[4];
+
+                for (int i = 0; i < 4; i++)
                 {
-                    mask = ~(uint.MaxValue >> 32);
+                    if (mask / 8 >= 1)
+                    {
+                        maskBytes[i] = 255;
+                    }
+                    else
+                    {
+                        maskBytes[i] = (byte)Math.Pow(2,8 - mask % 8);
+                    }
+                    mask -= 8;
                 }
 
                 byte[] ipBytes = ip.GetAddressBytes();
-                byte[] maskBytes = BitConverter.GetBytes(mask);
                 byte[] network = new byte[4];
 
                 for (int i = 0; i < 4; i++)
@@ -142,7 +154,7 @@ namespace DispalyTable
                 foreach (var row in log.rows)
                 {
                     IPAddress oldip = IPAddress.Parse(row.ElementAt(5));
-                    byte[] oldIpBytes = ip.GetAddressBytes();
+                    byte[] oldIpBytes = oldip.GetAddressBytes();
                     byte[] oldNetwork = new byte[4];
                     bool contains = true;
                     
