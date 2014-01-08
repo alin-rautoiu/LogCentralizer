@@ -50,7 +50,7 @@ namespace DispalyTable
                 IpSelect.DataSource = ipList;
                 IpSelect.DataBind();
 
-                StartDate.DataSource = startDates.GetRange(0,startDates.Count - 1);
+                StartDate.DataSource = startDates.GetRange(0,startDates.Count);
                 StartDate.DataBind();
 
                 EndDate.DataSource = endDates;

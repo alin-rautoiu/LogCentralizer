@@ -13,6 +13,7 @@ namespace LogReader
     {
         static void Main(string[] args)
         {
+            System.Diagnostics.Process.Start("http://localhost:11182/WebForm1.aspx");
         }
 
         public static List<Row> GetRowsFromDocument()
