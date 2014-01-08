@@ -52,7 +52,6 @@ namespace DispalyTable
                 WebLogDataGrid.DataBind();
             }
 
-            MyLabel.Text = "Am scris ceva";
         }
 
         private DataView createGrid(LogTable log)
@@ -89,8 +88,6 @@ namespace DispalyTable
         {
             int size = log.rows.Count;
             log.rows = log.rows.GetRange(StartDate.SelectedIndex, EndDate.SelectedIndex + 1);
-
-            Label1.Text = log.rows.Count.ToString();
 
             WebLogDataGrid.DataSource = createGrid(log);
             WebLogDataGrid.DataBind();
