@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DispalyTable", "DispalyTabl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConnection", "ConsoleApplication1\DatabaseConnection.csproj", "{66FD8A14-8005-4C1F-AF98-2CC1B23B93A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracker", "Tracker\Tracker.csproj", "{DCCC1E82-35CD-4209-AB33-45B232E34A82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{66FD8A14-8005-4C1F-AF98-2CC1B23B93A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66FD8A14-8005-4C1F-AF98-2CC1B23B93A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66FD8A14-8005-4C1F-AF98-2CC1B23B93A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCCC1E82-35CD-4209-AB33-45B232E34A82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCCC1E82-35CD-4209-AB33-45B232E34A82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCCC1E82-35CD-4209-AB33-45B232E34A82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCCC1E82-35CD-4209-AB33-45B232E34A82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

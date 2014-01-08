@@ -13,7 +13,6 @@ namespace LogReader
     {
         static void Main(string[] args)
         {
-            
         }
 
         public static List<Row> GetRowsFromDocument()
