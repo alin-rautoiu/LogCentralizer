@@ -37,7 +37,22 @@ namespace LogReader
             String[] filesPaths = Directory.GetFiles(logPath, "*.csv");
             foreach (var file in filesPaths)
             {
-                String log = File.ReadAllText(file);
+                String log = "";
+                try
+                {
+                    log = File.ReadAllText(file);
+                }
+                catch (Exception e)
+                {
+                    using (StreamWriter w = File.AppendText(@"C:\Log\log.txt"))
+                    {
+                        w.WriteLine("At: " + DateTime.Today.ToString("dd/mm/yy hh:mm:ss"));
+                        w.WriteLine("Message: " + e.Message);
+                        w.WriteLine("Source: " + e.Source);
+                        w.WriteLine("Stack Trace: " + e.StackTrace);
+                        w.WriteLine();
+                    }
+                }
                 Char[] separators = { '\n', ',', '"', '\r' };
 
                 List<String> logItems = log.Split(separators).ToList<String>();
@@ -55,7 +70,13 @@ namespace LogReader
                 }
                 catch (Exception e)
                 {
-                    //throw;
+                    using(StreamWriter w = File.AppendText(@"C:\Log\log.txt")){
+                        w.WriteLine("At: " + DateTime.Today.ToString("dd/mm/yy hh:mm:ss"));
+                        w.WriteLine("Message: " + e.Message);
+                        w.WriteLine("Source: " + e.Source);
+                        w.WriteLine("Stack Trace: " + e.StackTrace);
+                        w.WriteLine();
+                    }
                 }
 
                 rows.AddRange(CreateRows(logItems));

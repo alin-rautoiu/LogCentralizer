@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -10,18 +11,25 @@ using System.Web.UI.WebControls;
 namespace DispalyTable
 {
     public partial class WebForm1 : System.Web.UI.Page
-
     {
         List<String> startDates;
         List<String> endDates;
         static int index;
-        LogTable log;
+        static LogTable log;
         List<String> ipList;
+        protected void Reset()
+        {
+            DatabaseConnection.Program newConnection = new DatabaseConnection.Program();
+            log = newConnection.Read();
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
             DatabaseConnection.Program newConnection = new DatabaseConnection.Program();
             newConnection.Write(new LogTable(LogReader.Program.GetRowsFromDocument()));
-            log = newConnection.Read();
+            
+            if(!IsPostBack)
+                log = newConnection.Read();
+
             TableRow header = new TableRow();
             startDates = new List<string>();
             endDates = new List<string>();
@@ -42,7 +50,7 @@ namespace DispalyTable
                 IpSelect.DataSource = ipList;
                 IpSelect.DataBind();
 
-                StartDate.DataSource = startDates;
+                StartDate.DataSource = startDates.GetRange(0,startDates.Count - 1);
                 StartDate.DataBind();
 
                 EndDate.DataSource = endDates;
@@ -91,14 +99,18 @@ namespace DispalyTable
 
             WebLogDataGrid.DataSource = createGrid(log);
             WebLogDataGrid.DataBind();
+            Reset();
             
         }
 
         protected void IpFilter_Click(object sender, EventArgs e)
         {
 
-            if(IpSelect.SelectedValue.CompareTo("_") != 0)
-                log.rows.RemoveAll(row => row.ElementAt(5).CompareTo(IpSelect.SelectedValue) != 0);
+            if (IpSelect.SelectedValue.CompareTo("_") != 0)
+            {
+                Reset();
+                return;
+            }
 
             WebLogDataGrid.DataSource = createGrid(log);
             WebLogDataGrid.DataBind();
@@ -106,18 +118,25 @@ namespace DispalyTable
 
         protected void IpTextFilter_Click(object sender, EventArgs e)
         {
+            if (IpText.Text.CompareTo("") == 0)
+            {
+                Reset();
+                WebLogDataGrid.DataSource = createGrid(log);
+                WebLogDataGrid.DataBind();
+                return;
+            }
             String[] address = IpText.Text.Split('/');
             IPAddress ip;
-            int mask = 32;
-            bool check = IPAddress.TryParse(address[0],out ip);
+            int mask;
+            bool check = Regex.Match(address[0], "[0-9]+.[0-9]+.[0-9]+.[0-9]+").Success;
+            IPAddress.TryParse(address[0],out ip);
             if (!check)
             {
                 Label1.Text = "Adresa in format gresit";
             }
             else
             {
-
-
+                Label1.Text = "";
                 try
                 {
                     mask = Int32.Parse(address[1]);
