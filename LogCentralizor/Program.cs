@@ -13,15 +13,28 @@ namespace LogReader
     {
         static void Main(string[] args)
         {
-            
         }
 
         public static List<Row> GetRowsFromDocument()
         {
             List<Row> rows = new List<Row>();
+            List<String> row = new List<string>();
+
+            row.Add("LogTime");
+            row.Add("Action");
+            row.Add("FolderPath");
+            row.Add("Filename");
+            row.Add("Username");
+            row.Add("IPADDRESS");
+            row.Add("XferSize");
+            row.Add("Duration");
+            row.Add("AgentBrand");
+            row.Add("AgentVersion");
+            row.Add("Error");
+
+            rows.Add(new Row(row));
             String logPath = getPath(@"C:\Users\Alin\Documents\GitHub\LogCentralizer\conf.txt");
             String[] filesPaths = Directory.GetFiles(logPath, "*.csv");
-            bool firstRead = true;
             foreach (var file in filesPaths)
             {
                 String log = File.ReadAllText(file);
@@ -31,19 +44,24 @@ namespace LogReader
 
                 logItems.RemoveAll(item => item.CompareTo("") == 0);
 
-                if (firstRead != true)
-                {
-                    logItems.RemoveRange(0, 11);
-                }
-                else
-                {
-                    firstRead = false;
-                }
+                logItems.RemoveRange(0, 11);
 
-                File.Move(file, @"C:\Users\Alin\Downloads\20110307_023937AM_vms4pplog download\AlreadyProccesed\" + file.Split('\\').Last());
+                try
+                {
+                    File.Move(file,
+                                @"C:\Users\Alin\Downloads\20110307_023937AM_vms4pplog download\AlreadyProccesed\" +
+                                file.Split('\\').Last());
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
 
                 rows.AddRange(CreateRows(logItems));
             }
+
+
+
             return rows;
         }
 

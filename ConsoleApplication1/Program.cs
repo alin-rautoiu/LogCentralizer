@@ -48,7 +48,7 @@ namespace DatabaseConnection
 
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
-            SqlCommand selectAll = new SqlCommand("SELECT * FROM LogTable", connection);
+            SqlCommand selectAll = new SqlCommand("SELECT * FROM LogTable ORDER BY LogTime", connection);
             SqlDataReader reader = selectAll.ExecuteReader();
 
             List<Row> rows = new List<Row>();
@@ -89,7 +89,7 @@ namespace DatabaseConnection
             String connectionString = getConnectionString("C:\\Users\\Alin\\Documents\\GitHub\\LogCentralizer\\conf.txt");
 
             SqlConnection connection = new SqlConnection(connectionString);
-            SqlCommand selectAll = new SqlCommand("SELECT * FROM LogTable", connection);
+            SqlCommand selectAll = new SqlCommand("SELECT * FROM LogTable ORDER BY LogTime", connection);
 
             connection.Open();
 
