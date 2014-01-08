@@ -13,11 +13,12 @@ namespace LogReader
     {
         static void Main(string[] args)
         {
+            
         }
 
         public static List<Row> GetRowsFromDocument()
         {
-            string logPath = "C:\\Users\\Alin\\Downloads\\20110307_023937AM_vms4pplog download\\20110307_023937AM_vms4pplog download.csv";
+            String logPath = getPath("C:\\Users\\Alin\\Documents\\GitHub\\LogCentralizer\\LogCentralizor\\bin\\Debug\\conf.txt");
             String log = File.ReadAllText(logPath);
             Char[] separators = { '\n', ',', '"', '\r' };
 
@@ -26,6 +27,16 @@ namespace LogReader
             logItems.RemoveAll(item => item.CompareTo("") == 0);
 
             return CreateRows(logItems);
+        }
+
+        public static String getPath(String filePath)
+        {
+            String text = File.ReadAllText(filePath);
+            String line = text.Split(';')[0];
+            line = line.Replace(" = ", "=");
+            line = line.Replace(@"\", @"\\");
+            String path = line.Split('=')[1];
+            return path;
         }
 
         static List<Row> CreateRows(List<String> logItems)
