@@ -18,15 +18,33 @@ namespace LogReader
 
         public static List<Row> GetRowsFromDocument()
         {
-            String logPath = getPath("C:\\Users\\Alin\\Documents\\GitHub\\LogCentralizer\\LogCentralizor\\bin\\Debug\\conf.txt");
-            String log = File.ReadAllText(logPath);
-            Char[] separators = { '\n', ',', '"', '\r' };
+            List<Row> rows = new List<Row>();
+            String logPath = getPath(@"C:\Users\Alin\Documents\GitHub\LogCentralizer\conf.txt");
+            String[] filesPaths = Directory.GetFiles(logPath, "*.csv");
+            bool firstRead = true;
+            foreach (var file in filesPaths)
+            {
+                String log = File.ReadAllText(file);
+                Char[] separators = { '\n', ',', '"', '\r' };
 
-            List<String> logItems = log.Split(separators).ToList<String>();
+                List<String> logItems = log.Split(separators).ToList<String>();
 
-            logItems.RemoveAll(item => item.CompareTo("") == 0);
+                logItems.RemoveAll(item => item.CompareTo("") == 0);
 
-            return CreateRows(logItems);
+                if (firstRead != true)
+                {
+                    logItems.RemoveRange(0, 11);
+                }
+                else
+                {
+                    firstRead = false;
+                }
+
+                File.Move(file, @"C:\Users\Alin\Downloads\20110307_023937AM_vms4pplog download\AlreadyProccesed\" + file.Split('\\').Last());
+
+                rows.AddRange(CreateRows(logItems));
+            }
+            return rows;
         }
 
         public static String getPath(String filePath)

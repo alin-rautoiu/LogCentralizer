@@ -1,0 +1,7 @@
+log = D:\TeamNet\LogCentralizer\CSVFiles\20110307_023937AM_vms4pplog download\logfile.csv;
+
+connectionString : 
+server=ENGI-PC\\SQLEXPRESS,
+Trusted=yes,
+db=LogBD,
+connTimeout=30;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,12 +15,22 @@ namespace DatabaseConnection
             
         }
 
+        public static String getConnectionString(String filePath)
+        {
+            String text = File.ReadAllText(filePath);
+            String conn = text.Split(';')[1];
+            conn = conn.Split(':')[1];
+            List<String> items = conn.Split(',').ToList<String>();
+            String connString = "server=" + items[0].Split('=')[1]
+                                + ";Trusted_Connection=" + items[1].Split('=')[1]
+                                + ";database=" + items[2].Split('=')[1]
+                                + ";connection timeout=" + items[3].Split('=')[1];
+            return connString;
+        }
+
         public void EmptyDB()
         {
-            String connectionString = "server=ENGI-PC\\SQLEXPRESS;" +
-                                      "Trusted_Connection=yes;" +
-                                      "database=LogBD; " +
-                                      "connection timeout=30";
+            String connectionString = getConnectionString("C:\\Users\\Alin\\Documents\\GitHub\\LogCentralizer\\conf.txt");
 
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
@@ -33,10 +44,7 @@ namespace DatabaseConnection
 
         public LogTable Read()
         {
-            String connectionString = "server=ENGI-PC\\SQLEXPRESS;" +
-                                      "Trusted_Connection=yes;" +
-                                      "database=LogBD; " +
-                                      "connection timeout=30";
+            String connectionString = getConnectionString("C:\\Users\\Alin\\Documents\\GitHub\\LogCentralizer\\conf.txt");
 
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
@@ -78,10 +86,7 @@ namespace DatabaseConnection
 
         public void Write(LogTable log)
         {
-            String connectionString = "server=ENGI-PC\\SQLEXPRESS;" +
-                                       "Trusted_Connection=yes;" +
-                                       "database=LogBD; " +
-                                       "connection timeout=30";
+            String connectionString = getConnectionString("C:\\Users\\Alin\\Documents\\GitHub\\LogCentralizer\\conf.txt");
 
             SqlConnection connection = new SqlConnection(connectionString);
             SqlCommand selectAll = new SqlCommand("SELECT * FROM LogTable", connection);

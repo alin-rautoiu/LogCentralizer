@@ -1,1 +1,7 @@
-logfile = C:\Users\Alin\Downloads\20110307_023937AM_vms4pplog download\logfile.csv
+log = C:\Users\Alin\Downloads\20110307_023937AM_vms4pplog download;
+
+connectionString : 
+server=ENGI-PC\SQLEXPRESS,
+Trusted=yes,
+db=LogBD,
+connTimeout=30;

@@ -20,6 +20,7 @@ namespace DispalyTable
         protected void Page_Load(object sender, EventArgs e)
         {
             DatabaseConnection.Program newConnection = new DatabaseConnection.Program();
+            newConnection.EmptyDB();
             newConnection.Write(new LogTable(LogReader.Program.GetRowsFromDocument()));
             log = newConnection.Read();
             TableRow header = new TableRow();
