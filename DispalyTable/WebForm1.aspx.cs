@@ -42,8 +42,6 @@ namespace DispalyTable
                 endDates = new List<string>();
                 ipList = new List<string>();
 
-                ipList.Add("_");
-
                 foreach (var row in log.rows)
                 {
                     startDates.Add(row.ElementAt(0));
@@ -100,7 +98,7 @@ namespace DispalyTable
 
         protected void DateFilterClick(object sender, EventArgs e)
         {
-            if((IpSelect.SelectedValue.CompareTo("_") == 0) && (IpText.Text.CompareTo("") == 0)){
+            if(IpRadioList.Checked == false && IpRadioText.Checked == false){
                 log = newConnection.Filter(StartDate.SelectedValue, EndDate.SelectedValue);
             }
             else
@@ -116,7 +114,8 @@ namespace DispalyTable
                     log = newConnection.Filter(StartDate.SelectedValue, EndDate.SelectedValue, address, mask);
                 }
             }
-
+            IpRadioText.Checked = false;
+            IpRadioList.Checked = false;
             WebLogDataGrid.DataSource = createGrid(log);
             WebLogDataGrid.DataBind();
             Reset();
