@@ -178,7 +178,6 @@ namespace DatabaseConnection
             SqlCommand selectFilter;
             selectFilter = new SqlCommand("SELECT * FROM LogTable WHERE [LogTime] >= '" + startDate +
                                                         "' AND [LogTime] <= '" + endDate +
-                                                        "' AND [IPADDRESS] = '" + ipString +
                                                         "' ORDER By [LogTime]");
             
 
