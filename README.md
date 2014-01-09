@@ -26,3 +26,13 @@ Am folosit trei proiecte
 - unul pentru procesarea fisierului csv si preluarea datelor intr-o clasa tabel(formata din randuri si header) cu care lucreaza celelalte doua proiecte
 - unul pentru afisarea datelor pe web prin asp
 - un proiect pentru lucru cu baza de date
+- Fisierul de configurare se afla in C:\Conf (nu știu sigur care-s practicile cu fișierele astea) și este de forma:
+
+”log = [Calea completă către directorul unde se țin logurile]
+
+connectionString : 
+server=[Usernameul],
+Trusted=yes,
+db=LogBD,
+connTimeout=[perioada de timp];
+”
