@@ -21,14 +21,19 @@ namespace DispalyTable
         {
             DatabaseConnection.Program newConnection = new DatabaseConnection.Program();
             log = newConnection.Read();
+
+            WebLogDataGrid.DataSource = createGrid(log);
+            WebLogDataGrid.DataBind();
         }
         protected void Page_Load(object sender, EventArgs e)
         {
             DatabaseConnection.Program newConnection = new DatabaseConnection.Program();
-            newConnection.Write(new LogTable(LogReader.Program.GetRowsFromDocument()));
-            
-            if(!IsPostBack)
+
+            if (!IsPostBack)
+            {
                 log = newConnection.Read();
+                newConnection.Write(new LogTable(LogReader.Program.GetRowsFromDocument()));
+            }                
 
             TableRow header = new TableRow();
             startDates = new List<string>();
@@ -106,11 +111,13 @@ namespace DispalyTable
         protected void IpFilter_Click(object sender, EventArgs e)
         {
 
-            if (IpSelect.SelectedValue.CompareTo("_") != 0)
+            if (IpSelect.SelectedValue.CompareTo("_") == 0)
             {
                 Reset();
                 return;
             }
+
+            log.rows.RemoveAll(r => r.ElementAt(5).CompareTo(IpSelect.SelectedValue) != 0);
 
             WebLogDataGrid.DataSource = createGrid(log);
             WebLogDataGrid.DataBind();
