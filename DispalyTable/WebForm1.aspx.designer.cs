@@ -58,6 +58,15 @@ namespace DispalyTable {
         protected global::System.Web.UI.WebControls.DropDownList IpSelect;
         
         /// <summary>
+        /// IpRadioList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton IpRadioList;
+        
+        /// <summary>
         /// IpText control.
         /// </summary>
         /// <remarks>
@@ -74,6 +83,15 @@ namespace DispalyTable {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label1;
+        
+        /// <summary>
+        /// IpRadioText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton IpRadioText;
         
         /// <summary>
         /// WebLogDataGrid control.
