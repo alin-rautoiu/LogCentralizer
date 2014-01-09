@@ -107,12 +107,27 @@ namespace DispalyTable
 
             if (!(IpSelect.SelectedValue.CompareTo("_") == 0))
             {
-                log.rows.RemoveAll(r => r.ElementAt(5).CompareTo(IpSelect.SelectedValue) != 0);
+                IpFilter();
             }
 
             if (!(IpText.Text.CompareTo("") == 0))
             { 
-                String[] address = IpText.Text.Split('/');
+                IpTextFilter();
+            }
+
+            WebLogDataGrid.DataSource = createGrid(log);
+            WebLogDataGrid.DataBind();
+            Reset();
+        }
+
+        protected void IpFilter()
+        {
+            log.rows.RemoveAll(r => r.ElementAt(5).CompareTo(IpSelect.SelectedValue) != 0);
+        }
+
+        protected void IpTextFilter()
+        {
+            String[] address = IpText.Text.Split('/');
                 IPAddress ip;
                 int mask;
                 bool check = Regex.Match(address[0], "[0-9]+.[0-9]+.[0-9]+.[0-9]+").Success;
@@ -177,110 +192,10 @@ namespace DispalyTable
                             newLog.rows.Add(row);
                     }
                 }
-            }
-
-            WebLogDataGrid.DataSource = createGrid(log);
-            WebLogDataGrid.DataBind();
-            Reset();
-        }
-
-        protected void IpFilter_Click(object sender, EventArgs e)
-        {
-
-            if (IpSelect.SelectedValue.CompareTo("_") == 0)
-            {
-                Reset();
-                WebLogDataGrid.DataSource = createGrid(log);
-                WebLogDataGrid.DataBind();
-
-                return;
-            }
-
-            log.rows.RemoveAll(r => r.ElementAt(5).CompareTo(IpSelect.SelectedValue) != 0);
-
-            WebLogDataGrid.DataSource = createGrid(log);
-            WebLogDataGrid.DataBind();
-        }
-
-        protected void IpTextFilter_Click(object sender, EventArgs e)
-        {
-            if (IpText.Text.CompareTo("") == 0)
-            {
-                Reset();
-                WebLogDataGrid.DataSource = createGrid(log);
-                WebLogDataGrid.DataBind();
-                return;
-            }
-            String[] address = IpText.Text.Split('/');
-            IPAddress ip;
-            int mask;
-            bool check = Regex.Match(address[0], "[0-9]+.[0-9]+.[0-9]+.[0-9]+").Success;
-            IPAddress.TryParse(address[0],out ip);
-            if (!check)
-            {
-                Label1.Text = "Adresa in format gresit";
-            }
-            else
-            {
-                Label1.Text = "";
-                try
-                {
-                    mask = Int32.Parse(address[1]);
-                }
-                catch (IndexOutOfRangeException exception){
-                    mask = 32;
-                }
-                byte[] maskBytes = new Byte[4];
-
-                for (int i = 0; i < 4; i++)
-                {
-                    if (mask / 8 >= 1)
-                    {
-                        maskBytes[i] = 255;
-                    }
-                    else
-                    {
-                        maskBytes[i] = (byte)Math.Pow(2,8 - mask % 8);
-                    }
-                    mask -= 8;
-                }
-
-                byte[] ipBytes = ip.GetAddressBytes();
-                byte[] network = new byte[4];
-
-                for (int i = 0; i < 4; i++)
-                {
-                    network[i] = (byte)(ipBytes[i] & maskBytes[i]);
-                }
-
-                LogTable newLog = new LogTable();
-                newLog.header.AddRange(log.header);
-                
-                foreach (var row in log.rows)
-                {
-                    IPAddress oldip = IPAddress.Parse(row.ElementAt(5));
-                    byte[] oldIpBytes = oldip.GetAddressBytes();
-                    byte[] oldNetwork = new byte[4];
-                    bool contains = true;
-                    
-                    for (int i = 0; i < 4; i++)
-                    {
-                        oldNetwork[i] = (byte)(oldIpBytes[i] & maskBytes[i]);
-                        if (network[i] != oldNetwork[i])
-                        {
-                            contains = false;
-                            continue;
-                        }
-                    }
-                    if(contains)
-                        newLog.rows.Add(row);
-                }
-
-                WebLogDataGrid.DataSource = createGrid(newLog);
-                WebLogDataGrid.DataBind();
+        
+            
 
             }
 
         }
     }
-}
