@@ -130,10 +130,7 @@ namespace DispalyTable
         protected String[] IpTextFilter()
         {
             String[] address = IpText.Text.Split('/');
-            IPAddress ip;
-            int mask;
             bool check = Regex.Match(address[0], "[0-9]+.[0-9]+.[0-9]+.[0-9]+").Success;
-            IPAddress.TryParse(address[0], out ip);
             if (!check)
             {
                 Label1.Text = "Adresa in format gresit";

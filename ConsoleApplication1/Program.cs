@@ -121,20 +121,14 @@ namespace DatabaseConnection
             connection.Close();
         }
 
-        public LogTable Filter(String startDate, String endDate)
+        public LogTable Select(SqlCommand command)
         {
             String connectionString = getConnectionString(@"C:\Conf\conf.txt");
 
             SqlConnection connection = new SqlConnection(connectionString);
-            SqlCommand selectFilter;
-
-
-            selectFilter = new SqlCommand("SELECT * FROM LogTable WHERE [LogTime] > '" + startDate +
-                                                    "' AND [LogTime] < '" + endDate +
-                                                    "' ORDER By [LogTime]", connection);
-
             connection.Open();
-            SqlDataReader reader = selectFilter.ExecuteReader();
+            command.Connection = connection;
+            SqlDataReader reader = command.ExecuteReader();
 
             List<Row> rows = new List<Row>();
             List<String> row = new List<string>();
@@ -169,51 +163,26 @@ namespace DatabaseConnection
             return new LogTable(rows);
         }
 
+        public LogTable Filter(String startDate, String endDate)
+        {
+            SqlCommand selectFilter;
+            selectFilter = new SqlCommand("SELECT * FROM LogTable WHERE [LogTime] >= '" + startDate +
+                                                    "' AND [LogTime] <= '" + endDate +
+                                                    "' ORDER By [LogTime]");
+
+            return Select(selectFilter);
+        }
+
         public LogTable Filter(String startDate, String endDate, String ipString, String maskString)
         {
-            String connectionString = getConnectionString(@"C:\Conf\conf.txt");
-
-            SqlConnection connection = new SqlConnection(connectionString);
             SqlCommand selectFilter;
-
-            selectFilter = new SqlCommand("SELECT * FROM LogTable WHERE [LogTime] > '" + startDate +
-                                                        "' AND [LogTime] < '" + endDate +
+            selectFilter = new SqlCommand("SELECT * FROM LogTable WHERE [LogTime] >= '" + startDate +
+                                                        "' AND [LogTime] <= '" + endDate +
                                                         "' AND [IPADDRESS] = '" + ipString +
-                                                        "' ORDER By [LogTime]", connection);
-            connection.Open();
-            SqlDataReader reader = selectFilter.ExecuteReader();
+                                                        "' ORDER By [LogTime]");
+            
 
-            List<Row> rows = new List<Row>();
-            List<String> row = new List<string>();
-
-            row.Add("LogTime");
-            row.Add("Action");
-            row.Add("FolderPath");
-            row.Add("Filename");
-            row.Add("Username");
-            row.Add("IPADDRESS");
-            row.Add("XferSize");
-            row.Add("Duration");
-            row.Add("AgentBrand");
-            row.Add("AgentVersion");
-            row.Add("Error");
-
-            rows.Add(new Row(row));
-
-            while (reader.Read())
-            {
-                row = new List<string>();
-                for (int i = 0; i < 11; i++)
-                {
-                    row.Add((string)reader[i]);
-                }
-                rows.Add(new Row(row));
-                row.Clear();
-            }
-            reader.Close();
-            connection.Close();
-
-            LogTable log = new LogTable(rows);
+            LogTable log = Select(selectFilter);
 
             IPAddress ip = IPAddress.Parse(ipString);
             int mask = Int32.Parse(maskString);
@@ -269,49 +238,13 @@ namespace DatabaseConnection
 
         public LogTable Filter(String startDate, String endDate, String ip)
         {
-            String connectionString = getConnectionString(@"C:\Conf\conf.txt");
-
-            SqlConnection connection = new SqlConnection(connectionString);
             SqlCommand selectFilter;
-
-            selectFilter = new SqlCommand("SELECT * FROM LogTable WHERE [LogTime] > '" + startDate +
-                                                        "' AND [LogTime] < '" + endDate +
+            selectFilter = new SqlCommand("SELECT * FROM LogTable WHERE [LogTime] >= '" + startDate +
+                                                        "' AND [LogTime] <= '" + endDate +
                                                         "' AND [IPADDRESS] = '" + ip +
-                                                        "' ORDER By [LogTime]", connection);
-            connection.Open();
-            SqlDataReader reader = selectFilter.ExecuteReader();
-
-            List<Row> rows = new List<Row>();
-            List<String> row = new List<string>();
-
-            row.Add("LogTime");
-            row.Add("Action");
-            row.Add("FolderPath");
-            row.Add("Filename");
-            row.Add("Username");
-            row.Add("IPADDRESS");
-            row.Add("XferSize");
-            row.Add("Duration");
-            row.Add("AgentBrand");
-            row.Add("AgentVersion");
-            row.Add("Error");
-
-            rows.Add(new Row(row));
-
-            while (reader.Read())
-            {
-                row = new List<string>();
-                for (int i = 0; i < 11; i++)
-                {
-                    row.Add((string)reader[i]);
-                }
-                rows.Add(new Row(row));
-                row.Clear();
-            }
-            reader.Close();
-            connection.Close();
-
-            return new LogTable(rows);
+                                                        "' ORDER By [LogTime]");
+           
+            return Select(selectFilter);
         }
         public static List<String> TableToCommandString(LogTable log)
         {
@@ -324,6 +257,7 @@ namespace DatabaseConnection
                 {
                     command = command + "'" + cell + "',";
                 }
+
                 command = command.Remove(command.Length-1);
                 commands.Add(command);
             }
