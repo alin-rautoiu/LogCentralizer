@@ -173,66 +173,68 @@ namespace DatabaseConnection
             return Select(selectFilter);
         }
 
+        public LogTable checkIp(LogTable log, String ipString, String maskString)
+        {
+            byte[] maskBytes = new Byte[4];
+            IPAddress ip = IPAddress.Parse(ipString);
+            int mask = Int32.Parse(maskString);
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (mask / 8 >= 1)
+                {
+                    maskBytes[i] = 255;
+                }
+                else
+                {
+                    maskBytes[i] = (byte)Math.Pow(2, 8 - mask % 8);
+                }
+                mask -= 8;
+            }
+
+            byte[] ipBytes = ip.GetAddressBytes();
+            byte[] network = new byte[4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                network[i] = (byte)(ipBytes[i] & maskBytes[i]);
+            }
+
+            LogTable newLog = new LogTable();
+            newLog.header.AddRange(log.header);
+
+            foreach (var row1 in log.rows)
+            {
+                IPAddress oldip = IPAddress.Parse(row1.ElementAt(5));
+                byte[] oldIpBytes = oldip.GetAddressBytes();
+                byte[] oldNetwork = new byte[4];
+                bool contains = true;
+
+                for (int i = 0; i < 4; i++)
+                {
+                    oldNetwork[i] = (byte)(oldIpBytes[i] & maskBytes[i]);
+                    if (network[i] != oldNetwork[i])
+                    {
+                        contains = false;
+                        continue;
+                    }
+                }
+                if (contains)
+                    newLog.rows.Add(row1);
+            }
+            return newLog;
+        }
         public LogTable Filter(String startDate, String endDate, String ipString, String maskString)
         {
             SqlCommand selectFilter;
             selectFilter = new SqlCommand("SELECT * FROM LogTable WHERE [LogTime] >= '" + startDate +
                                                         "' AND [LogTime] <= '" + endDate +
+
                                                         "' ORDER By [LogTime]");
-            
 
             LogTable log = Select(selectFilter);
 
-            IPAddress ip = IPAddress.Parse(ipString);
-            int mask = Int32.Parse(maskString);
-
-            byte[] maskBytes = new Byte[4];
-
-                for (int i = 0; i < 4; i++)
-                {
-                    if (mask / 8 >= 1)
-                    {
-                        maskBytes[i] = 255;
-                    }
-                    else
-                    {
-                        maskBytes[i] = (byte)Math.Pow(2, 8 - mask % 8);
-                    }
-                    mask -= 8;
-                }
-
-                byte[] ipBytes = ip.GetAddressBytes();
-                byte[] network = new byte[4];
-
-                for (int i = 0; i < 4; i++)
-                {
-                    network[i] = (byte)(ipBytes[i] & maskBytes[i]);
-                }
-
-                LogTable newLog = new LogTable();
-                newLog.header.AddRange(log.header);
-
-                foreach (var row1 in log.rows)
-                {
-                    IPAddress oldip = IPAddress.Parse(row1.ElementAt(5));
-                    byte[] oldIpBytes = oldip.GetAddressBytes();
-                    byte[] oldNetwork = new byte[4];
-                    bool contains = true;
-
-                    for (int i = 0; i < 4; i++)
-                    {
-                        oldNetwork[i] = (byte)(oldIpBytes[i] & maskBytes[i]);
-                        if (network[i] != oldNetwork[i])
-                        {
-                            contains = false;
-                            continue;
-                        }
-                    }
-                    if (contains)
-                        newLog.rows.Add(row1);
-                }
-            
-            return newLog;
+            return checkIp(log, ipString, maskString);
         }
 
         public LogTable Filter(String startDate, String endDate, String ip)
